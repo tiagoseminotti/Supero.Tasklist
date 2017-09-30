@@ -1,0 +1,68 @@
+﻿@model IEnumerable<Supero.Tasklist.Models.Task>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h3>Task List</h3>
+
+<p>
+    @Html.ActionLink("New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DS_TITLE)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DS_TASK)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DT_CREATION)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DT_LAST_CHANGE)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DT_REMOVED)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DT_FINISHED)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ST_FINISHED)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.DS_TITLE)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DS_TASK)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DT_CREATION)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DT_LAST_CHANGE)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DT_REMOVED)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DT_FINISHED)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ST_FINISHED)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { pId=item.CD_TASK }) |
+            @Html.ActionLink("Delete", "Delete", new { pId=item.CD_TASK })
+        </td>
+    </tr>
+}
+
+</table>

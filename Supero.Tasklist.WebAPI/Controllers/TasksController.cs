@@ -13,21 +13,34 @@ using Supero.Tasklist.Contexts;
 
 namespace Supero.Tasklist.WebAPI.Controllers
 {
+    /// <summary>
+    /// Controller for the Task entity
+    /// </summary>
     public class TasksController : ApiController
     {
         private SuperoTasklistWebAPIContext db = new SuperoTasklistWebAPIContext();
 
         // GET: api/Tasks
-        public IQueryable<Models.Task> GetTask()
+        /// <summary>
+        /// Gets all the tasks
+        /// </summary>
+        /// <returns></returns>
+        public IQueryable<Supero.Tasklist.Models.Task> GetTask()
         {
-            return db.Task;
+            return db.Task.Where(t => t.ST_REMOVED != true);
         }
 
         // GET: api/Tasks/5
+        /// <summary>
+        /// Finds a task by the Id informed
+        /// </summary>
+        /// <param name="pId">Task Id</param>
+        /// <returns></returns>
+        [HttpGet]
         [ResponseType(typeof(Models.Task))]
-        public async Task<IHttpActionResult> GetTask(Guid id)
+        public async Task<IHttpActionResult> GetTask(Guid pId)
         {
-            Models.Task task = await db.Task.FindAsync(id);
+            Models.Task task = await db.Task.FindAsync(pId);
             if (task == null)
             {
                 return NotFound();
@@ -37,28 +50,37 @@ namespace Supero.Tasklist.WebAPI.Controllers
         }
 
         // PUT: api/Tasks/5
+        /// <summary>
+        /// Updates an existing task
+        /// </summary>
+        /// <param name="pId">Task Id</param>
+        /// <param name="pTask">Task data</param>
+        /// <returns></returns>
         [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutTask(Guid id, Models.Task task)
+        public async Task<IHttpActionResult> PutTask(Guid pId, Models.Task pTask)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != task.CD_TASK)
+            if (pId != pTask.CD_TASK)
             {
                 return BadRequest();
             }
 
-            db.Entry(task).State = EntityState.Modified;
+            //When any data is updated, the last change date has to be updated
+            pTask.DT_LAST_CHANGE = DateTime.UtcNow;
 
+            db.Entry(pTask).State = EntityState.Modified;
+            
             try
             {
                 await db.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!TaskExists(id))
+                if (!TaskExists(pId))
                 {
                     return NotFound();
                 }
@@ -72,23 +94,37 @@ namespace Supero.Tasklist.WebAPI.Controllers
         }
 
         // POST: api/Tasks
+        /// <summary>
+        /// Creates a new task
+        /// </summary>
+        /// <param name="pTask">Task data</param>
+        /// <returns></returns>
         [ResponseType(typeof(Models.Task))]
-        public async Task<IHttpActionResult> PostTask(Models.Task task)
+        public async Task<IHttpActionResult> PostTask(Models.Task pTask)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.Task.Add(task);
+            //Creates a new Id
+            pTask.CD_TASK = Guid.NewGuid();
+            //Sets creation date
+            pTask.DT_CREATION = DateTime.UtcNow;
+            //A task should never be created with finished or removed as true
+            pTask.ST_FINISHED = false;
+            pTask.ST_REMOVED = false;
+
+            db.Task.Add(pTask);
 
             try
             {
+                //Saves
                 await db.SaveChangesAsync();
             }
             catch (DbUpdateException)
             {
-                if (TaskExists(task.CD_TASK))
+                if (TaskExists(pTask.CD_TASK))
                 {
                     return Conflict();
                 }
@@ -98,20 +134,28 @@ namespace Supero.Tasklist.WebAPI.Controllers
                 }
             }
 
-            return CreatedAtRoute("DefaultApi", new { id = task.CD_TASK }, task);
+            return CreatedAtRoute("DefaultApi", new { id = pTask.CD_TASK }, pTask);
         }
 
         // DELETE: api/Tasks/5
+        /// <summary>
+        /// Deletes a task
+        /// </summary>
+        /// <param name="pId">Task Id</param>
+        /// <returns></returns>
         [ResponseType(typeof(Models.Task))]
-        public async Task<IHttpActionResult> DeleteTask(Guid id)
+        public async Task<IHttpActionResult> DeleteTask(Guid pId)
         {
-            Models.Task task = await db.Task.FindAsync(id);
+            Models.Task task = await db.Task.FindAsync(pId);
             if (task == null)
             {
                 return NotFound();
             }
 
-            db.Task.Remove(task);
+            //db.Task.Remove(task);
+            //Sets the task as removed
+            task.ST_REMOVED = true;
+
             await db.SaveChangesAsync();
 
             return Ok(task);

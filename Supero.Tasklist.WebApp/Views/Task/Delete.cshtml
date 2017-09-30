@@ -1,0 +1,77 @@
+﻿@model Supero.Tasklist.Models.Task
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.DS_TITLE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DS_TITLE)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DS_TASK)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DS_TASK)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DT_CREATION)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DT_CREATION)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DT_LAST_CHANGE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DT_LAST_CHANGE)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DT_REMOVED)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DT_REMOVED)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DT_FINISHED)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DT_FINISHED)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ST_FINISHED)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ST_FINISHED)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back", "Index")
+        </div>
+    }
+</div>

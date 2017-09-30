@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Supero.Tasklist.Models</name>
+    </assembly>
+    <members>
+        <member name="T:Supero.Tasklist.Models.Task">
+            <summary>
+            Task entity model
+            </summary>
+        </member>
+        <member name="P:Supero.Tasklist.Models.Task.CD_TASK">
+            <summary>
+            Code
+            </summary>
+        </member>
+        <member name="P:Supero.Tasklist.Models.Task.DS_TITLE">
+            <summary>
+            Title
+            </summary>
+        </member>
+        <member name="P:Supero.Tasklist.Models.Task.DS_TASK">
+            <summary>
+            Description
+            </summary>
+        </member>
+        <member name="P:Supero.Tasklist.Models.Task.DT_CREATION">
+            <summary>
+            Creation date
+            </summary>
+        </member>
+        <member name="P:Supero.Tasklist.Models.Task.DT_LAST_CHANGE">
+            <summary>
+            Last change date
+            </summary>
+        </member>
+        <member name="P:Supero.Tasklist.Models.Task.DT_REMOVED">
+            <summary>
+            Removed date
+            Obs: Only used in case of task deletion
+            </summary>
+        </member>
+        <member name="P:Supero.Tasklist.Models.Task.DT_FINISHED">
+            <summary>
+            Finished date
+            </summary>
+        </member>
+        <member name="P:Supero.Tasklist.Models.Task.ST_FINISHED">
+            <summary>
+            Is task finished
+            </summary>
+        </member>
+        <member name="P:Supero.Tasklist.Models.Task.ST_REMOVED">
+            <summary>
+            Task removed
+            </summary>
+        </member>
+    </members>
+</doc>
